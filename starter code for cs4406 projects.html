@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="https://getfirebug.com/firebug-lite-debug.js"></script>
+<meta name="description" content="CS4406 Computer Graphics - Assignment #????" />
+  	<meta charset="utf-8" />
+	<title>Assignment #??? for CS4406 Computer Graphics</title>
+	<style>
+		#container {
+			background: #000000;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+<meta charset=utf-8 />  
+<style id="jsbin-css">
+
+</style>
+</head>
+<body>
+<div id="container">
+</div>
+</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script> 
+	<script src="http://uopeopleweb.com/js/dat.gui.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/three.js/r58/three.min.js"></script>
+	<script src="http://uopeopleweb.com/js/OrbitControls.js"></script>
+	<script src="http://uopeopleweb.com/js/math.js"></script>
+	<script src="http://uopeopleweb.com/js/Detector.js"></script>
+	<script type="text/javascript">
+
+	// set the scene size
+	var WIDTH = 600, HEIGHT = 600;
+
+	// set some camera attributes
+	var VIEW_ANGLE = 45, ASPECT = WIDTH / HEIGHT, NEAR = 1, FAR = 1000;
+
+	// get the DOM element to attach to
+	var $container = $('#container');
+
+	// create a WebGL renderer, camera, and a scene
+	// NOTE: for the assignment in Unit 4 where you need to use a texture, or in any other assignment where a texture is required 
+	// you should deactivate the Detector and use ONLY the CanvasRenderer.  There are some issues in using waht are called Cross Domain images for 
+	// for textures.   You can get more details by looking up WebGL and CORS using Google search.  I have included some code below that will 
+	// get around this issue that you can use. 
+	if ( Detector.webgl )
+		var renderer = new THREE.WebGLRenderer();
+	else
+		var renderer = new THREE.CanvasRenderer();   
+
+	var scene = new THREE.Scene();
+	var clock = new THREE.Clock();
+	var camera = new THREE.PerspectiveCamera(VIEW_ANGLE,ASPECT,NEAR,FAR);
+	
+	// the camera starts at 0,0,0 so pull it back for some assignments you may need to adjust this value
+	// some distance to make the scene visible properly
+	camera.position.z = 30;    	
+
+	// add the camera to the scene
+	scene.add(camera)
+   
+	// set up the camera controls.  Please keep in mind that what this does is move the entire scene around.
+	// because the entire scene is moving the position of the camera and lights in relation to objects within 
+	// the scene doesn't change so the lighting on the surface of the object(s) will not change either
+	var cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
+	cameraControls.addEventListener( 'mousemove', renderer );
+  
+	// start the renderer
+	renderer.setSize(WIDTH, HEIGHT);
+
+	// attach the render-supplied DOM element
+	$container.append(renderer.domElement);
+
+	// ----------------------------------------------------------------------------------------
+	//  Example of Code that you can adapt to get around the issue of Cross-Domain issues and 
+    //  CORS restrictions using textures.  We have this problem when using jsbin.com as a
+    //  development environment becuase we cannot load texture images to the local server.
+    //  Rather we need to pull them from location using a web URL.  You can use the images 
+    //  that we have put on the uopeopleweb.com site along with the following code (modified 
+	//  of course for your particular program)
+	//
+	//  Notice that what this code does is create a new Texture object called Texture1 and loads
+	//	the texture image into the object.  
+	//  
+	//	var Texture1 = new THREE.Texture();
+    //	var loader = new THREE.ImageLoader();
+	//
+	//	loader.addEventListener( 'load', function ( event ) {
+	//			Texture1.image = event.content;
+	//			Texture1.needsUpdate = true;
+    //	} );
+	//
+    //	loader.load( 'http://uopeopleweb.com/js/paper.jpg' );
+		
+	// ----------------------------------------------------------------------------------------
+	//  END OF THE STANDARD CODE FOR THE ASSIGNMENT
+	//  Following this is where you must place your own custom code to complete the assignment
+	// ----------------------------------------------------------------------------------------
+
+
+
+
+	// ----------------------------------------------------------------------------------------
+	// END OF YOUR CUSTOM CODE FOR THE ASSIGNMENT
+	// The rendering functions that follow are standard and can be used for this assignment.  
+	// You are welcome to customize them or create your own if you desire, however, you can 
+	// simply use the code provided.
+	//
+
+	// Standard functions for rendering the scene.  Notice how we have the animate function 
+	// which submits a call to requestAnimationFrame to call animate.   This creates a loop
+	// that will render the scene again whenever something within the scene changes.
+	function animate() {
+		requestAnimationFrame(animate);
+		render();
+	}
+
+	function render() {
+		cameraControls.update();
+		renderer.render(scene, camera);
+	}
+	animate();
+	</script>
+</html>
